@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Login and Registration Form</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="form" ,>
+        <div class="form-login">
+          <span class="title">Login</span>
+          <form id="loginForm">
+            <div class="input-field">
+              <input placeholder="Email" type="Enter your email" required />
+            </div>
+            <div class="input-field">
+              <input
+                placeholder="Password"
+                type="Enter your password"
+                required
+              />
+            </div>
+            
+            <div class="input-field button">
+              <input type="submit" value="Login Now" required />
+            </div>
+          </form>
+          <div class="Login Sign-Up">
+            <span class="text"
+              >Not a member?
+              <a href="signup.html" class="text signup-text">Sign-Up Now</a>
+            </span>
+          </div>
+          <p id="message"></p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const myForm = document.getElementById('loginForm');
+
+      myForm.addEventListener('submit', async function (e) {
+          e.preventDefault();
+          const formData = new FormData(myForm).entries()
+          const response = await fetch('http://localhost:8081/api/v1/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify(Object.fromEntries(formData))
+          });
+
+          // const result = await response.json();
+          console.log(response)
+          if(response.status === 200) {
+            var p = document.getElementById("message").textContent = "User logged in successfully";
+          } else {
+            var p = document.getElementById("message").textContent = "user not found";
+          }
+      });            
+    </script>
+ 
+    
+  </body>
+</html>
